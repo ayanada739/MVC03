@@ -1,3 +1,7 @@
+using Company.G03.BLL.Repositories;
+using Company.G03.DAL.Data.Contexts;
+using System;
+
 namespace Company.G03.PL
 {
     public class Program
@@ -8,6 +12,11 @@ namespace Company.G03.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            //builder.Services.AddScoped<AppDbContext>(); //Allow DI For AppDbContext
+            builder.Services.AddDbContext<AppDbContext>(); //Allow DI For AppDbContext
+
+            //builder.Services.AddScoped<DepartmentRepository>(); //Allow DI For DepartmentRepository
+
 
             var app = builder.Build();
 

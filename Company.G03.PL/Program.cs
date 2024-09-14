@@ -1,5 +1,6 @@
 using Company.G03.BLL.Repositories;
 using Company.G03.DAL.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Company.G03.PL
@@ -12,10 +13,16 @@ namespace Company.G03.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            
             //builder.Services.AddScoped<AppDbContext>(); //Allow DI For AppDbContext
-            builder.Services.AddDbContext<AppDbContext>(); //Allow DI For AppDbContext
+            
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            }); //Allow DI For AppDbContext
 
             //builder.Services.AddScoped<DepartmentRepository>(); //Allow DI For DepartmentRepository
+
 
 
             var app = builder.Build();

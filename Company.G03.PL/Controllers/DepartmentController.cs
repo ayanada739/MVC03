@@ -2,6 +2,7 @@
 using Company.G03.BLL.Repositories;
 using Company.G03.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Company.G03.PL.Controllers
 {
@@ -35,7 +36,20 @@ namespace Company.G03.PL.Controllers
             else
             {
                 return View(model);
-            }
+            }  
         }
+
+        public IActionResult Details(int? Id)
+        {
+            if (Id is null) return BadRequest();
+
+           var Department = _departmentRepository.Get(Id.Value);
+
+            if (Department is null) return NotFound();
+
+            return View(Department);
+        }
+         
+
     }
 }

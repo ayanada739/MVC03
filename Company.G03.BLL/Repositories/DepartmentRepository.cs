@@ -38,10 +38,19 @@ namespace Company.G03.BLL.Repositories
             return _context.SaveChanges();
         }
 
-        public int Update(Department entity)
+        public void Update(Department department)
         {
-            _context.Department.Update(entity);
-            return _context.SaveChanges();
+            var Department = _context.Department.Find(department.Id);
+            if (department != null)
+            {
+                Department.Name = department.Name;
+                Department.Code = department.Code;
+                Department.DateOfCreation = department.DateOfCreation;
+                _context.Department.Update(department);
+                _context.SaveChanges();
+
+            }
+
 
         }
 
@@ -52,6 +61,17 @@ namespace Company.G03.BLL.Repositories
 
         }
 
+        public void Delete(int Id)
+        {
+            var department = _context.Department.Find(Id);
+            if (department != null )
+            {
+                _context.Department.Remove(department);
+                _context.SaveChanges();
+            }
 
+        }
+
+       
     }
 }

@@ -14,8 +14,8 @@ namespace Company.G03.BLL.Interfaces
         IEnumerable<Department> GetAll();
         Department Get(int? Id);
         int Add(Department entity);
-        int Update(Department entity);
+        void Update(Department department);
         int Delete(Department entity);
-
+        void Delete(int id);
     }
 }

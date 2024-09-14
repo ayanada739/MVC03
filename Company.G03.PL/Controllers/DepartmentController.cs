@@ -29,27 +29,83 @@ namespace Company.G03.PL.Controllers
         public IActionResult Create(Department model)
         {
             var Count = _departmentRepository.Add(model);
-            if(Count > 0)
+            if (Count > 0)
             {
                 return RedirectToAction(nameof(Index));
             }
             else
             {
                 return View(model);
-            }  
+            }
         }
 
         public IActionResult Details(int? Id)
         {
             if (Id is null) return BadRequest();
 
-           var Department = _departmentRepository.Get(Id.Value);
+            var Department = _departmentRepository.Get(Id.Value);
 
             if (Department is null) return NotFound();
 
             return View(Department);
         }
-         
+
+
+        public IActionResult Edit(int id)
+        {
+            var department = _departmentRepository.Get(id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            return View(department);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Department model)
+        {
+            if (ModelState.IsValid)
+            {
+                _departmentRepository.Update(model);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+        }
+
+
+        
+        public IActionResult Delete(int Id)
+        {
+            var department = _departmentRepository.Get(Id);  
+
+            if (department == null)
+            {
+                return NotFound();  
+            }
+
+            return View(department);  
+        }
+
+        
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int Id)
+        {
+            var department = _departmentRepository.Get(Id);  
+            if (department == null)
+            {
+                return NotFound();  
+            }
+
+            _departmentRepository.Delete(Id);
+            return RedirectToAction(nameof(Index));  
+        }
+
 
     }
+
+
 }

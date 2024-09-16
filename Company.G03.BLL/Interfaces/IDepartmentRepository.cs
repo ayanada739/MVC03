@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Company.G03.BLL.Interfaces
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository : IGenericRepository<Department>
     {
-        IEnumerable<Department> GetAll();
-        Department Get(int? Id);
-        int Add(Department entity);
-        void Update(Department department);
+        //IEnumerable<Department> GetAll();
+        //Department Get(int? Id);
+        //int Add(Department entity);
+        //void Update(Department department);
          
-        int Delete(Department entity);
+        //int Delete(Department entity);
        
     }
 }

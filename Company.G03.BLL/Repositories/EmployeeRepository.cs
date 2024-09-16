@@ -9,42 +9,15 @@ using System.Threading.Tasks;
 
 namespace Company.G03.BLL.Repositories
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository :GenericRepository<Employee> , IEmployeeRepository
     {
-        private readonly AppDbContext _context;
-
-        public EmployeeRepository(AppDbContext context) //ASK CLR Create Object From AppDbContext
+       
+        public EmployeeRepository(AppDbContext context) : base(context) //ASK CLR Create Object From AppDbContext
         {
-            _context = context;
+             
         }
 
-        public IEnumerable<Employee> GetAll()
-        {
-            return _context.Employees.ToList();
-        }
-        public Employee Get(int? Id)
-        {
-            return _context.Employees.Find(Id);
-        }
-
-        public int Add(Employee entity)
-        {
-            _context.Employees.Add(entity);
-            return _context.SaveChanges();
-        }
-
-        public int Update(Employee entity)
-        {
-            _context.Employees.Update(entity);
-            return _context.SaveChanges();
-        }
-
-        public int Delete(Employee entity)
-        {
-            _context.Employees.Remove(entity);
-            return _context.SaveChanges();
-        }
-
+         
        
        
     }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Company.G03.DAL.Models
 {
-    public class Employee
+    public class Employee : BaseEntity
     {
-        public int Id { get; set; }
+        
 
         [Required(ErrorMessage= "Name is Required!!")]
         public string Name { get; set; }

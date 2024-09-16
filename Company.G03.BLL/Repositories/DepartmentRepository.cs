@@ -72,6 +72,9 @@ namespace Company.G03.BLL.Repositories
 
         }
 
-       
+        public void Update(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

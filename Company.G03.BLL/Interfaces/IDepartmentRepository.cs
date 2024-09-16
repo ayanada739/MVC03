@@ -15,7 +15,8 @@ namespace Company.G03.BLL.Interfaces
         Department Get(int? Id);
         int Add(Department entity);
         void Update(Department department);
+         
         int Delete(Department entity);
-        void Delete(int id);
+       
     }
 }

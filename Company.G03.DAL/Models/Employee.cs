@@ -22,6 +22,8 @@ namespace Company.G03.DAL.Models
         public string Address { get; set; }
 
         [Required(ErrorMessage = "Salary is Required!!")]
+
+        [DataType(DataType.Currency)]
         public decimal Salary { get; set; }
 
         [DataType(DataType.EmailAddress)]

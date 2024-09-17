@@ -51,12 +51,14 @@ namespace Company.G03.PL.Controllers
         }
 
 
- 
-            //var Department = _departmentRepository.Get(Id.Value);
+        public IActionResult Edit(int id)
+        {
+            var department = _departmentRepository.Get(id);
 
-            //if (Department is null) return NotFound();
-
-            //return View(Department);
+            if (department == null)
+            {
+                return NotFound();
+            }
 
             return Details(Id , "Edit");
         }
@@ -65,15 +67,18 @@ namespace Company.G03.PL.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int? Id, Department model)
         {
-            try
+            if (ModelState.IsValid)
             {
- 
+                _departmentRepository.Update(model);
+                return RedirectToAction(nameof(Index));
             }
 
             return View(model);
         }
 
- 
+
+        
+        public IActionResult Delete(int Id)
         {
             if (Id is null) return BadRequest();
             var department = _departmentRepository.Get(Id.Value);  

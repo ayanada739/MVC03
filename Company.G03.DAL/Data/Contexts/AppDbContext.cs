@@ -28,5 +28,6 @@ namespace Company.G03.DAL.Data.Contexts
         //}
 
         public DbSet<Department> Department { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

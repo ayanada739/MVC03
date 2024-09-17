@@ -51,10 +51,7 @@ namespace Company.G03.PL.Controllers
         }
 
 
-        public IActionResult Edit(int? Id)
-        {
-            //if (Id is null) return BadRequest();
-
+ 
             //var Department = _departmentRepository.Get(Id.Value);
 
             //if (Department is null) return NotFound();
@@ -65,23 +62,21 @@ namespace Company.G03.PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Department model)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute] int? Id, Department model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _departmentRepository.Update(model);
-                 return RedirectToAction(nameof(Index));
-                
+ 
             }
 
             return View(model);
         }
 
-
-
-        public IActionResult Delete(int Id)
+ 
         {
-            var department = _departmentRepository.Get(Id);  
+            if (Id is null) return BadRequest();
+            var department = _departmentRepository.Get(Id.Value);  
 
             if (department == null)
             {
@@ -91,19 +86,42 @@ namespace Company.G03.PL.Controllers
             return View(department);  
         }
 
-        
+
+
+        //public IActionResult DeleteConfirmed(int Id)
+        //{
+        //    var department = _departmentRepository.Get(Id);  
+        //    if (department == null)
+        //    {
+        //        return NotFound();  
+        //    }
+
+        //    _departmentRepository.Delete(Id);
+        //    return RedirectToAction(nameof(Index));  
+        //}
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int Id)
+        public IActionResult Delete([FromRoute] int? Id, Department model)
         {
-            var department = _departmentRepository.Get(Id);  
-            if (department == null)
+            try
             {
-                return NotFound();  
+                if (Id != model.Id) return BadRequest();
+
+                if (ModelState.IsValid)
+                {
+                    var Count = _departmentRepository.Delete(model);
+                if (Count>0)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+            }
+            catch(Exception Ex)
+            {
+                ModelState.AddModelError(string.Empty, Ex.Message);
             }
 
-            _departmentRepository.Delete(Id);
-            return RedirectToAction(nameof(Index));  
+            return View(model);
         }
 
 

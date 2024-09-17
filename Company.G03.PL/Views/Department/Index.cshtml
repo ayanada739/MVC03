@@ -34,15 +34,8 @@
                     <td>@department.Code</td>
                     <td>@department.Name</td>
                     <td>@department.DateOfCreation</td>
-                    <td>
-                        <a asp-action="Details" asp-route-Id ="@department.Id" class="btn btn-warning">Details </a>
-                    </td>
-                    <td>
-                        <a asp-action="Update" asp-route-Id="@department.Id" class="btn btn-success">Update </a>
-                    </td>
-                    <td>
-                        <a asp-action="Delete" asp-route-Id="@department.Id" class="btn btn-danger">Delete </a>
-                    </td>
+                  
+                    <partial name="_ButtenPartialView" model="@department.Id"/>
                 </tr>
             }
 

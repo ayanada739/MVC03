@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 
 namespace Company.G03.BLL.Repositories
 {
-    //CLR
-    public class DepartmentRepository : GenericRepository<Department>, IDepartmentRepository
+    public class EmployeeRepository :GenericRepository<Employee> , IEmployeeRepository
     {
- 
-        public DepartmentRepository(AppDbContext context) : base(context) //ASK CLR Create Object From AppDbContext
+       
+        public EmployeeRepository(AppDbContext context) : base(context) //ASK CLR Create Object From AppDbContext
         {
-            
+             
         }
+
          
-
-
+       
+       
     }
+  
 }

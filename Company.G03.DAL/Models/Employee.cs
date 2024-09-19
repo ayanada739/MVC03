@@ -9,7 +9,7 @@ namespace Company.G03.DAL.Models
 {
     public class Employee : BaseEntity
     {
-        
+        private string? address;
 
         [Required(ErrorMessage= "Name is Required!!")]
         public string Name { get; set; }
@@ -17,9 +17,9 @@ namespace Company.G03.DAL.Models
         [Range(25,60, ErrorMessage ="Age must be between 05 ,60")]
         public int? Age { get; set; }
 
-        [RegularExpression(pattern: @"[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{4,10}-[a-zA-Z]{5,10}$" ,
-            ErrorMessage ="Address must be Like 123-Street-City-Country")]
-        public string Address { get; set; }
+        [RegularExpression(pattern: @"[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{4,10}-[a-zA-Z]{5,10}$",
+            ErrorMessage = "Address must be Like 123-Street-City-Country")]
+        public string? Address { get => address; set => address = value; }
 
         [Required(ErrorMessage = "Salary is Required!!")]
 

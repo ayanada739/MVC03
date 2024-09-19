@@ -3,11 +3,27 @@
 
 @{
     ViewData["Title"] = "Index";
+    string S01 = ViewData[index:"Data02"] as string; // Required Casting
+    string S02 = ViewBag.Data02; //Not Required Casting
 }
 
 <h1>All Employees</h1>
 <br />
 <br />
+
+
+@* <div class="alert alert-danger">
+    <p>@ViewData["Data02"]</p>
+</div>
+<div class="alert alert-danger">
+    <p>@ViewBag.Data02</p>
+</div>
+ *@
+
+<div class="alert alert-danger">
+    <p>@TempData["Message"]</p>
+</div>
+
 
 <a asp-action="Create" class="btn btn-primary">Create Employee</a>
 

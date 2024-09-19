@@ -2,6 +2,7 @@
 @model Employee
 
 
+
 <div class="form-group">
     <label asp-for="Name" class="col-form-label"></label>
     <input asp-for="Name" class="form-control" />
@@ -34,11 +35,11 @@
 </div>
 <div class="form-group">
     <label asp-for="HiringDate" class="col-form-label"></label>
-    <input asp-for="HiringDate" class="form-control" />
+    <input asp-for="HiringDate" class="form-control" type="date" />
     <span asp-validation-for="HiringDate" class="text-danger"></span>
 </div>
 <div class="form-group">
-    <label asp-for="IsActive" class="form-check"></label>
-    <input asp-for="IsActive" class="form-check" />
+    <label asp-for="IsActive" class="form-check-label"></label>
+    <input asp-for="IsActive" class="form-check-input" type="checkbox" />
     <span asp-validation-for="IsActive" class="text-danger"></span>
 </div>

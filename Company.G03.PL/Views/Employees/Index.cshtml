@@ -62,7 +62,7 @@
                     <td>@Html.DisplayFor(M => employee.IsActive)</td>
                     <td>@employee.HiringDate</td>
 
-                    <partial name="_ButtenPartialView" model="@employee.Id" />
+                    <partial name="~/Views\Shared\_ButtonPartailView.cshtml" model="@employee.Id" />
 
                 </tr>
             }

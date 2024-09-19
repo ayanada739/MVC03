@@ -1,5 +1,7 @@
 ﻿@using Company.G03.DAL.Models
 @model Employee
+
+
 @{
     ViewData["Title"] = "Create";
 }
@@ -11,14 +13,15 @@
 <form asp-action="Create">
 
 
-    <partial name="Employees/PartialViews/EditCreateEmployeePartialView" model="Model" />
+    <partial name="PartialViews/EditCreateEmployeePartialView" model="@Model" />
 
     <input type="submit" value="Create" class="btn btn-primary" />
     <a asp-action="Index" class="btn btn-light">Back To List</a>
 </form>
-@section Hamada{
+@* @section Hamada{
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 }
+ *@

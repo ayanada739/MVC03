@@ -57,7 +57,7 @@ namespace Company.G03.PL.Controllers
 
         public IActionResult Edit(int id)
         {
- 
+
 
             if (department == null)
             {

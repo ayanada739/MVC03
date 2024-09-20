@@ -1,5 +1,6 @@
 ﻿using Company.G03.BLL.Interfaces;
 using Company.G03.DAL.Models;
+using Company.G03.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.G03.PL.Controllers
@@ -58,13 +59,34 @@ namespace Company.G03.PL.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Employee model)
+        public IActionResult Create(EmployeeViewModel model)
         {
            if(ModelState.IsValid)
             {
                 try
                 {
-                    var Count = _employeeRepository.Add(model);
+                    //Casting EmployeeViewModel (ViewModel) to Employee (model)
+                    //Mapping:
+                    //1. Manual Mapping
+
+                    Employee employee = new Employee()
+                    {
+                        Id = model.Id,
+                        Address = model.Address,
+                        Name = model.Name,
+                        Salary = model.Salary,
+                        Age = model.Age,
+                        HiringDate = model.HiringDate,
+                        IsActive = model.IsActive,
+                        WorkFor = model.WorkFor,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber
+                    };
+                    //2. Auto Mapping
+
+
+
+                    var Count = _employeeRepository.Add(employee);
                     if (Count > 0)
                     {
                         TempData["Messege"] = "Employee Created!";
@@ -95,7 +117,22 @@ namespace Company.G03.PL.Controllers
 
             if (employee is null) return NotFound();
 
-            return View(employee);
+            //Mapping: Employee >> EmployeeViewModel
+
+            EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+            {
+                Id = employee.Id,
+                Address = employee.Address,
+                Name = employee.Name,
+                Salary = employee.Salary,
+                Age = employee.Age,
+                HiringDate = employee.HiringDate,
+                IsActive = employee.IsActive,
+                WorkFor = employee.WorkFor,
+                Email = employee.Email,
+                PhoneNumber = employee.PhoneNumber
+            };
+            return View(employeeViewModel);
         }
 
 
@@ -112,8 +149,24 @@ namespace Company.G03.PL.Controllers
                 var employee = _employeeRepository.Get(id.Value);
 
                 if (employee == null)  return NotFound();
-                
-                return View(employee);
+
+
+                //Mapping: Employee >> EmployeeViewModel
+                EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+                {
+                    Id = employee.Id,
+                    Address = employee.Address,
+                    Name = employee.Name,
+                    Salary = employee.Salary,
+                    Age = employee.Age,
+                    HiringDate = employee.HiringDate,
+                    IsActive = employee.IsActive,
+                    WorkFor = employee.WorkFor,
+                    Email = employee.Email,
+                    PhoneNumber = employee.PhoneNumber
+                };
+
+                return View(employeeViewModel);
             }
             catch(Exception ex)
             {
@@ -125,7 +178,7 @@ namespace Company.G03.PL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int? Id, Employee model)
+        public IActionResult Edit([FromRoute] int? Id, EmployeeViewModel model)
         {
             try
             {
@@ -133,7 +186,22 @@ namespace Company.G03.PL.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var Count = _employeeRepository.Update(model);
+
+                    Employee employee = new Employee()
+                    {
+                        Id = model.Id,
+                        Address = model.Address,
+                        Name = model.Name,
+                        Salary = model.Salary,
+                        Age = model.Age,
+                        HiringDate = model.HiringDate,
+                        IsActive = model.IsActive,
+                        WorkFor = model.WorkFor,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber
+                    };
+
+                    var Count = _employeeRepository.Update(employee);
                     if (Count > 0)
                     {
                         return RedirectToAction(nameof(Index));
@@ -160,7 +228,22 @@ namespace Company.G03.PL.Controllers
                 return NotFound();
             }
 
-            return View(employee);
+            //Mapping: Employee >> EmployeeViewModel
+            EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+            {
+                Id = employee.Id,
+                Address = employee.Address,
+                Name = employee.Name,
+                Salary = employee.Salary,
+                Age = employee.Age,
+                HiringDate = employee.HiringDate,
+                IsActive = employee.IsActive,
+                WorkFor = employee.WorkFor,
+                Email = employee.Email,
+                PhoneNumber = employee.PhoneNumber
+            };
+
+            return View(employeeViewModel);
         }
 
 
@@ -178,7 +261,7 @@ namespace Company.G03.PL.Controllers
         //}
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute] int? Id, Employee model)
+        public IActionResult Delete([FromRoute] int? Id, EmployeeViewModel model)
         {
             try
             {
@@ -186,7 +269,21 @@ namespace Company.G03.PL.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var Count = _employeeRepository.Delete(model);
+                    Employee employee = new Employee()
+                    {
+                        Id = model.Id,
+                        Address = model.Address,
+                        Name = model.Name,
+                        Salary = model.Salary,
+                        Age = model.Age,
+                        HiringDate = model.HiringDate,
+                        IsActive = model.IsActive,
+                        WorkFor = model.WorkFor,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber
+                    };
+
+                    var Count = _employeeRepository.Delete(employee);
                     if (Count > 0)
                     {
                         return RedirectToAction(nameof(Index));

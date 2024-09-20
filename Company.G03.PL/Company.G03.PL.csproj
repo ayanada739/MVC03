@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -17,6 +17,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Company.G03.BLL\Company.G03.BLL.csproj" />
     <ProjectReference Include="..\Company.G03.DAL\Company.G03.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\Departments\" />
   </ItemGroup>
 
 </Project>

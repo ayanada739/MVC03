@@ -1,5 +1,5 @@
 ﻿@using Company.G03.DAL.Models
-@model Employee
+@model EmployeeViewModel
 
 @{
     var departments = new SelectList(ViewData[index: "departments"] as IEnumerable<Department>,nameof(Department.Id),nameof(Department.Name));

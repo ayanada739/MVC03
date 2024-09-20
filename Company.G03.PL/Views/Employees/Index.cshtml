@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    string S01 = ViewData[index:"Data02"] as string; // Required Casting
+    string? S01 = ViewData[index:"Data02"] as string; // Required Casting
     string S02 = ViewBag.Data02; //Not Required Casting
 }
 
@@ -38,6 +38,7 @@
                 
                 <th>@Html.DisplayNameFor(D => D.Name)</th>
                 <th>@Html.DisplayNameFor(D => D.Age)</th>
+                <th>@Html.DisplayNameFor(D => D.WorkFor)</th>
                 <th>@Html.DisplayNameFor(D => D.Address)</th>
                 <th>@Html.DisplayNameFor(D => D.Email)</th>
                 <th>@Html.DisplayNameFor(D => D.PhoneNumber)</th>
@@ -55,6 +56,7 @@
                 <tr>
                     <td>@employee.Name</td>
                     <td>@employee.Age</td>
+                    <td>@employee.WorkFor?.Name</td>
                     <td>@employee.Address</td>
                     <td>@Html.DisplayFor(M => employee.Email)</td>
                     <td>@employee.PhoneNumber</td>

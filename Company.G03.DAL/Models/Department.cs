@@ -14,11 +14,11 @@ namespace Company.G03.DAL.Models
        
 
         [Required(ErrorMessage ="Code Is Required!")]
-        public string Code { get; set; }
+        public string? Code { get; set; }
 
         [Required (ErrorMessage ="Name Is Required!")]
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [DisplayName("Date Of Creation")]
         public DateTime DateOfCreation { get; set; }

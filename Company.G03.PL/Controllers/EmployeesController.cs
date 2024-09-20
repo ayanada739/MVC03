@@ -7,10 +7,15 @@ namespace Company.G03.PL.Controllers
     public class EmployeesController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository; //Null
+        private readonly IDepartmentRepository _departmentRepository; //Null
 
-        public EmployeesController(IEmployeeRepository employeeRepository) //Ask CLR To Create Object From departmentRepository
+        public EmployeesController(
+            IEmployeeRepository employeeRepository,
+            IDepartmentRepository departmentRepository
+            ) //Ask CLR To Create Object From departmentRepository
         {
             _employeeRepository = employeeRepository;
+            _departmentRepository = departmentRepository;
         }
 
         [HttpGet]
@@ -30,20 +35,19 @@ namespace Company.G03.PL.Controllers
             // Transfor Data From Request To Another
             //TempData[key:"Data03" ] = "Hello World From TempData"
 
-
-
-
-
-
             return View(employees);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
+            var departments =_departmentRepository.GetAll();
+            ViewData[index: "departments"] = departments;
+
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Employee model)
         {
            if(ModelState.IsValid)
@@ -87,16 +91,26 @@ namespace Company.G03.PL.Controllers
 
         public IActionResult Edit(int? id)
         {
-            if (id is null) return BadRequest();
-
-            var employee = _employeeRepository.Get(id.Value);
-
-            if (employee == null)
+            try
             {
-                return NotFound();
-            }
+                var departments = _departmentRepository.GetAll();
+                ViewData[index: "departments"] = departments;
 
-            return View(employee);
+
+                if (id is null) return BadRequest();
+
+                var employee = _employeeRepository.Get(id.Value);
+
+                if (employee == null)  return NotFound();
+                
+                return View(employee);
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return RedirectToAction(actionName: "Error", controllerName: "Home");
+            }
+           
         }
 
         [HttpPost]

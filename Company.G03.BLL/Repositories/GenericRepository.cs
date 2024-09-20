@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Company.G03.BLL.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private readonly AppDbContext _context;
         public GenericRepository(AppDbContext context) //ASK CLR Create Object From AppDbContext
@@ -19,6 +19,10 @@ namespace Company.G03.BLL.Repositories
         }
         public IEnumerable<T> GetAll()
         {
+            if (typeof(T) == typeof(Employee))
+            {
+                return (IEnumerable<T>)_context.Employees.Include(E => E.WorkFor).ToList();
+            }
             return _context.Set<T>().ToList();
         }
 

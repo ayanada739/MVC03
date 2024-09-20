@@ -1,4 +1,5 @@
-﻿using Company.G03.BLL.Interfaces;
+﻿using AutoMapper;
+using Company.G03.BLL.Interfaces;
 using Company.G03.DAL.Models;
 using Company.G03.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +10,18 @@ namespace Company.G03.PL.Controllers
     {
         private readonly IEmployeeRepository _employeeRepository; //Null
         private readonly IDepartmentRepository _departmentRepository; //Null
+        private readonly IMapper _mapper;
 
         public EmployeesController(
             IEmployeeRepository employeeRepository,
-            IDepartmentRepository departmentRepository
+            IDepartmentRepository departmentRepository,
+            IMapper mapper
+
             ) //Ask CLR To Create Object From departmentRepository
         {
             _employeeRepository = employeeRepository;
             _departmentRepository = departmentRepository;
+            _mapper = mapper;
         }
 
 
@@ -33,6 +38,8 @@ namespace Company.G03.PL.Controllers
             {
                  employees = _employeeRepository.GetByName(InputSearch);
             }
+
+            var result = _mapper.Map<IEnumerable<EmployeeViewModel>>(employees);
  
             // View's Dictionary:transfer Data From Action To View (One Ways)
             
@@ -46,7 +53,7 @@ namespace Company.G03.PL.Controllers
             // Transfor Data From Request To Another
             //TempData[key:"Data03" ] = "Hello World From TempData"
 
-            return View(employees);
+            return View(result);
         }
 
         [HttpGet]
@@ -69,20 +76,23 @@ namespace Company.G03.PL.Controllers
                     //Mapping:
                     //1. Manual Mapping
 
-                    Employee employee = new Employee()
-                    {
-                        Id = model.Id,
-                        Address = model.Address,
-                        Name = model.Name,
-                        Salary = model.Salary,
-                        Age = model.Age,
-                        HiringDate = model.HiringDate,
-                        IsActive = model.IsActive,
-                        WorkFor = model.WorkFor,
-                        Email = model.Email,
-                        PhoneNumber = model.PhoneNumber
-                    };
+                    //Employee employee = new Employee()
+                    //{
+                    //    Id = model.Id,
+                    //    Address = model.Address,
+                    //    Name = model.Name,
+                    //    Salary = model.Salary,
+                    //    Age = model.Age,
+                    //    HiringDate = model.HiringDate,
+                    //    IsActive = model.IsActive,
+                    //    WorkFor = model.WorkFor,
+                    //    Email = model.Email,
+                    //    PhoneNumber = model.PhoneNumber
+                    //};
+
                     //2. Auto Mapping
+
+                    var employee = _mapper.Map<Employee>(model);
 
 
 
@@ -119,19 +129,22 @@ namespace Company.G03.PL.Controllers
 
             //Mapping: Employee >> EmployeeViewModel
 
-            EmployeeViewModel employeeViewModel = new EmployeeViewModel()
-            {
-                Id = employee.Id,
-                Address = employee.Address,
-                Name = employee.Name,
-                Salary = employee.Salary,
-                Age = employee.Age,
-                HiringDate = employee.HiringDate,
-                IsActive = employee.IsActive,
-                WorkFor = employee.WorkFor,
-                Email = employee.Email,
-                PhoneNumber = employee.PhoneNumber
-            };
+            //EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+            //{
+            //    Id = employee.Id,
+            //    Address = employee.Address,
+            //    Name = employee.Name,
+            //    Salary = employee.Salary,
+            //    Age = employee.Age,
+            //    HiringDate = employee.HiringDate,
+            //    IsActive = employee.IsActive,
+            //    WorkFor = employee.WorkFor,
+            //    Email = employee.Email,
+            //    PhoneNumber = employee.PhoneNumber
+            //};
+
+            //Auto Mapping
+            var employeeViewModel = _mapper.Map<EmployeeViewModel>(employee);
             return View(employeeViewModel);
         }
 
@@ -152,20 +165,21 @@ namespace Company.G03.PL.Controllers
 
 
                 //Mapping: Employee >> EmployeeViewModel
-                EmployeeViewModel employeeViewModel = new EmployeeViewModel()
-                {
-                    Id = employee.Id,
-                    Address = employee.Address,
-                    Name = employee.Name,
-                    Salary = employee.Salary,
-                    Age = employee.Age,
-                    HiringDate = employee.HiringDate,
-                    IsActive = employee.IsActive,
-                    WorkFor = employee.WorkFor,
-                    Email = employee.Email,
-                    PhoneNumber = employee.PhoneNumber
-                };
-
+                //EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+                //{
+                //    Id = employee.Id,
+                //    Address = employee.Address,
+                //    Name = employee.Name,
+                //    Salary = employee.Salary,
+                //    Age = employee.Age,
+                //    HiringDate = employee.HiringDate,
+                //    IsActive = employee.IsActive,
+                //    WorkFor = employee.WorkFor,
+                //    Email = employee.Email,
+                //    PhoneNumber = employee.PhoneNumber
+                //};
+                //Auto Mapping
+                var employeeViewModel = _mapper.Map<EmployeeViewModel>(employee);
                 return View(employeeViewModel);
             }
             catch(Exception ex)
@@ -187,20 +201,22 @@ namespace Company.G03.PL.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    Employee employee = new Employee()
-                    {
-                        Id = model.Id,
-                        Address = model.Address,
-                        Name = model.Name,
-                        Salary = model.Salary,
-                        Age = model.Age,
-                        HiringDate = model.HiringDate,
-                        IsActive = model.IsActive,
-                        WorkFor = model.WorkFor,
-                        Email = model.Email,
-                        PhoneNumber = model.PhoneNumber
-                    };
+                    //Employee employee = new Employee()
+                    //{
+                    //    Id = model.Id,
+                    //    Address = model.Address,
+                    //    Name = model.Name,
+                    //    Salary = model.Salary,
+                    //    Age = model.Age,
+                    //    HiringDate = model.HiringDate,
+                    //    IsActive = model.IsActive,
+                    //    WorkFor = model.WorkFor,
+                    //    Email = model.Email,
+                    //    PhoneNumber = model.PhoneNumber
+                    //};
 
+                    //Auto Mapping
+                    var employee = _mapper.Map<Employee>(model);
                     var Count = _employeeRepository.Update(employee);
                     if (Count > 0)
                     {
@@ -229,20 +245,22 @@ namespace Company.G03.PL.Controllers
             }
 
             //Mapping: Employee >> EmployeeViewModel
-            EmployeeViewModel employeeViewModel = new EmployeeViewModel()
-            {
-                Id = employee.Id,
-                Address = employee.Address,
-                Name = employee.Name,
-                Salary = employee.Salary,
-                Age = employee.Age,
-                HiringDate = employee.HiringDate,
-                IsActive = employee.IsActive,
-                WorkFor = employee.WorkFor,
-                Email = employee.Email,
-                PhoneNumber = employee.PhoneNumber
-            };
+            //EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+            //{
+            //    Id = employee.Id,
+            //    Address = employee.Address,
+            //    Name = employee.Name,
+            //    Salary = employee.Salary,
+            //    Age = employee.Age,
+            //    HiringDate = employee.HiringDate,
+            //    IsActive = employee.IsActive,
+            //    WorkFor = employee.WorkFor,
+            //    Email = employee.Email,
+            //    PhoneNumber = employee.PhoneNumber
+            //};
 
+            //Auto Mapping
+            var employeeViewModel = _mapper.Map<EmployeeViewModel>(employee);
             return View(employeeViewModel);
         }
 
@@ -269,20 +287,22 @@ namespace Company.G03.PL.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    Employee employee = new Employee()
-                    {
-                        Id = model.Id,
-                        Address = model.Address,
-                        Name = model.Name,
-                        Salary = model.Salary,
-                        Age = model.Age,
-                        HiringDate = model.HiringDate,
-                        IsActive = model.IsActive,
-                        WorkFor = model.WorkFor,
-                        Email = model.Email,
-                        PhoneNumber = model.PhoneNumber
-                    };
+                    //Employee employee = new Employee()
+                    //{
+                    //    Id = model.Id,
+                    //    Address = model.Address,
+                    //    Name = model.Name,
+                    //    Salary = model.Salary,
+                    //    Age = model.Age,
+                    //    HiringDate = model.HiringDate,
+                    //    IsActive = model.IsActive,
+                    //    WorkFor = model.WorkFor,
+                    //    Email = model.Email,
+                    //    PhoneNumber = model.PhoneNumber
+                    //};
 
+                    //Auto Mapping
+                    var employee = _mapper.Map<Employee>(model);
                     var Count = _employeeRepository.Delete(employee);
                     if (Count > 0)
                     {

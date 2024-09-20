@@ -1,4 +1,5 @@
-﻿using Company.G03.BLL.Interfaces;
+﻿using Company.G03.BLL;
+using Company.G03.BLL.Interfaces;
 using Company.G03.BLL.Repositories;
 using Company.G03.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,15 +9,17 @@ namespace Company.G03.PL.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IDepartmentRepository _departmentRepository; //Null
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DepartmentController(IDepartmentRepository departmentRepository) //Ask CLR To Create Object From departmentRepository
+        //private readonly IDepartmentRepository _departmentRepository; //Null
+        public DepartmentController(/*IDepartmentRepository departmentRepository*/ IUnitOfWork unitOfWork) //Ask CLR To Create Object From departmentRepository
         {
-            _departmentRepository = departmentRepository;
+            //_departmentRepository = departmentRepository;
+             _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            var departments = _departmentRepository.GetAll();
+            var departments = _unitOfWork.DepartmentRepository.GetAll();
             return View(departments);
         }
 
@@ -28,7 +31,8 @@ namespace Company.G03.PL.Controllers
         [HttpPost]
         public IActionResult Create(Department model)
         {
-            var Count = _departmentRepository.Add(model);
+             _unitOfWork.DepartmentRepository.Add(model);
+            var Count = _unitOfWork.Complete();
             if (Count > 0)
             {
                 return RedirectToAction(nameof(Index));
@@ -43,7 +47,7 @@ namespace Company.G03.PL.Controllers
         {
             if (Id is null) return BadRequest();
 
-            var Department = _departmentRepository.Get(Id.Value);
+            var Department = _unitOfWork.DepartmentRepository.Get(Id.Value);
 
             if (Department is null) return NotFound();
 
@@ -55,7 +59,7 @@ namespace Company.G03.PL.Controllers
         {
             if (id is null) return BadRequest();
 
-            var department = _departmentRepository.Get(id.Value);
+            var department = _unitOfWork.DepartmentRepository.Get(id.Value);
 
             if (department == null)
             {
@@ -75,7 +79,8 @@ namespace Company.G03.PL.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var Count = _departmentRepository.Update(model);
+                    _unitOfWork.DepartmentRepository.Update(model);
+                    var Count = _unitOfWork.Complete();
                     if (Count > 0)
                     {
                         return RedirectToAction(nameof(Index));
@@ -95,7 +100,7 @@ namespace Company.G03.PL.Controllers
         public IActionResult Delete(int? Id)
         {
             if (Id is null) return BadRequest();
-            var department = _departmentRepository.Get(Id.Value);  
+            var department = _unitOfWork.DepartmentRepository.Get(Id.Value);  
 
             if (department == null)
             {
@@ -128,8 +133,9 @@ namespace Company.G03.PL.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var Count = _departmentRepository.Delete(model);
-                if (Count>0)
+                    _unitOfWork.DepartmentRepository.Delete(model);
+                    var Count = _unitOfWork.Complete();
+                    if (Count>0)
                     {
                         return RedirectToAction(nameof(Index));
                     }

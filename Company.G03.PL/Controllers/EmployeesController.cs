@@ -18,11 +18,21 @@ namespace Company.G03.PL.Controllers
             _departmentRepository = departmentRepository;
         }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            var employees = _employeeRepository.GetAll();
 
+        public IActionResult Index(string InputSearch)
+        {
+            var employees = Enumerable.Empty<Employee>();
+             
+            if (string.IsNullOrEmpty(InputSearch))
+            {
+                 employees = _employeeRepository.GetAll();
+
+            }
+            else
+            {
+                 employees = _employeeRepository.GetByName(InputSearch);
+            }
+ 
             // View's Dictionary:transfer Data From Action To View (One Ways)
             
             //// 1. viewData : Property Inherited From Controller Class,  Dictionary

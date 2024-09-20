@@ -1,6 +1,7 @@
 ﻿using Company.G03.BLL.Interfaces;
 using Company.G03.DAL.Data.Contexts;
 using Company.G03.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,10 @@ namespace Company.G03.BLL.Repositories
              
         }
 
-         
-       
-       
+        public IEnumerable<Employee> GetByName(string name)
+        {
+           return _context.Employees.Where(E => E.Name.ToLower().Contains(name.ToLower())).Include(E => E.WorkFor).ToList();
+        }
     }
   
 }

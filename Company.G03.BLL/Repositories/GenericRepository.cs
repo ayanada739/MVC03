@@ -10,15 +10,19 @@ using System.Threading.Tasks;
 
 namespace Company.G03.BLL.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private readonly AppDbContext _context;
+        private protected readonly AppDbContext _context;
         public GenericRepository(AppDbContext context) //ASK CLR Create Object From AppDbContext
         {
             _context = context;
         }
         public IEnumerable<T> GetAll()
         {
+            if (typeof(T) == typeof(Employee))
+            {
+                return (IEnumerable<T>)_context.Employees.Include(E => E.WorkFor).ToList();
+            }
             return _context.Set<T>().ToList();
         }
 
@@ -26,23 +30,20 @@ namespace Company.G03.BLL.Repositories
         {
             return _context.Set<T>().Find(Id);
         }
-        public int Add(T entity)
+        public void Add(T entity)
         {
              _context.Add(entity);
-            return _context.SaveChanges();
-        }
+         }
 
-        public int Update(T entity)
+        public void Update(T entity)
         {
             _context.Update(entity);
-            return _context.SaveChanges();
-        }
+         }
 
-        public int Delete(T entity)
+        public void Delete(T entity)
         {
             _context.Remove(entity);
-            return _context.SaveChanges();
-        }
+         }
 
        
 

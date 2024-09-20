@@ -1,13 +1,45 @@
 ﻿@using Company.G03.DAL.Models
-@model IEnumerable<Employee>
+@model IEnumerable<EmployeeViewModel>
 
 @{
     ViewData["Title"] = "Index";
+    string? S01 = ViewData[index:"Data02"] as string; // Required Casting
+    string S02 = ViewBag.Data02; //Not Required Casting
 }
 
 <h1>All Employees</h1>
 <br />
 <br />
+
+
+@* <div class="alert alert-danger">
+    <p>@ViewData["Data02"]</p>
+</div>
+<div class="alert alert-danger">
+    <p>@ViewBag.Data02</p>
+</div>
+ *@
+
+ <form asp-action="Index" >
+     <div class="row m-5">
+         <div class="col-8">
+            <input type="text" name="InputSearch" class="form-control" />
+         </div>
+         <div class="col-4">
+            <input type="submit" value="Search" class="btn btn-success" />
+         </div>
+     </div>
+
+ </form>
+
+
+@if (!string.IsNullOrEmpty(TempData["Message"] as string))
+{
+    <div class="alert alert-danger">
+        <p>@TempData["Message"]</p>
+    </div>
+}
+
 
 <a asp-action="Create" class="btn btn-primary">Create Employee</a>
 
@@ -22,6 +54,7 @@
                 
                 <th>@Html.DisplayNameFor(D => D.Name)</th>
                 <th>@Html.DisplayNameFor(D => D.Age)</th>
+                <th>@Html.DisplayNameFor(D => D.WorkFor)</th>
                 <th>@Html.DisplayNameFor(D => D.Address)</th>
                 <th>@Html.DisplayNameFor(D => D.Email)</th>
                 <th>@Html.DisplayNameFor(D => D.PhoneNumber)</th>
@@ -39,6 +72,7 @@
                 <tr>
                     <td>@employee.Name</td>
                     <td>@employee.Age</td>
+                    <td>@employee.WorkFor?.Name</td>
                     <td>@employee.Address</td>
                     <td>@Html.DisplayFor(M => employee.Email)</td>
                     <td>@employee.PhoneNumber</td>
@@ -46,7 +80,7 @@
                     <td>@Html.DisplayFor(M => employee.IsActive)</td>
                     <td>@employee.HiringDate</td>
 
-                    <partial name="_ButtenPartialView" model="@employee.Id" />
+                    <partial name="~/Views\Shared\_ButtonPartailView.cshtml" model="@employee.Id" />
 
                 </tr>
             }

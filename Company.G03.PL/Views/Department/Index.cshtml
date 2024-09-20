@@ -34,8 +34,8 @@
                     <td>@department.Code</td>
                     <td>@department.Name</td>
                     <td>@department.DateOfCreation</td>
-                  
-                    <partial name="_ButtenPartialView" model="@department.Id"/>
+
+                    <partial name="~/Views\Shared\_ButtonPartailView.cshtml" model="@department.Id" />
                 </tr>
             }
 

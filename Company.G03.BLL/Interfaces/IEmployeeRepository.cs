@@ -9,6 +9,7 @@ namespace Company.G03.BLL.Interfaces
 {
     public interface IEmployeeRepository :IGenericRepository<Employee>
     {
+        IEnumerable<Employee> GetByName(string name);
         //Employee GetByName(string name);
         //IEnumerable<Employee> GetAll();
         //Employee Get(int? Id);

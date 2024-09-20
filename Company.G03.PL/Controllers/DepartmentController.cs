@@ -57,9 +57,7 @@ namespace Company.G03.PL.Controllers
 
         public IActionResult Edit(int id)
         {
-            var department = _departmentRepository.Get(id);
 
-            var department = _unitOfWork.DepartmentRepository.Get(id.Value);
 
             if (department == null)
             {
@@ -73,23 +71,9 @@ namespace Company.G03.PL.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int? Id, Department model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (Id != model.Id) return BadRequest();
-
-                if (ModelState.IsValid)
-                {
-                    _unitOfWork.DepartmentRepository.Update(model);
-                    var Count = _unitOfWork.Complete();
-                    if (Count > 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-            }
-            catch (Exception Ex)
-            {
-                ModelState.AddModelError(string.Empty, Ex.Message);
+ 
             }
 
             return View(model);

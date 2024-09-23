@@ -11,6 +11,7 @@ namespace Company.G03.BLL.Interfaces
         public IDepartmentRepository DepartmentRepository { get;}
         public IEmployeeRepository EmployeeRepository { get;}
         int Complete();
+        void Save();
 
 
 

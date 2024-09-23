@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Company.G03.BLL.Interfaces;
 using Company.G03.DAL.Models;
+using Company.G03.PL.Helper;
 using Company.G03.PL.ViewModels.Employees;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
 
 namespace Company.G03.PL.Controllers
 {
@@ -65,7 +67,7 @@ namespace Company.G03.PL.Controllers
         public IActionResult Create()
         {
             var departments = _unitOfWork.DepartmentRepository.GetAll();
-            ViewData[index: "departments"] = departments;
+            ViewData["departments"] = departments;
 
             return View();
         }
@@ -77,6 +79,12 @@ namespace Company.G03.PL.Controllers
             {
                 try
                 {
+                    if( model.Image is not null)
+                    {
+                        model.ImageName = DocumentSetting.Upload(model.Image, folderName: "images");
+                    }
+
+
                     //Casting EmployeeViewModel (ViewModel) to Employee (model)
                     //Mapping:
                     //1. Manual Mapping
@@ -159,7 +167,7 @@ namespace Company.G03.PL.Controllers
             try
             {
                 var departments = _unitOfWork.DepartmentRepository.GetAll();
-                ViewData[index: "departments"] = departments;
+                ViewData["departments"] = departments;
 
 
                 if (id is null) return BadRequest();

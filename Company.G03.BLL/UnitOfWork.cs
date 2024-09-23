@@ -28,5 +28,10 @@ namespace Company.G03.BLL
         {
            return _context.SaveChanges();
         }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

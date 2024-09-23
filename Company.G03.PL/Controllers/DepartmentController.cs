@@ -43,7 +43,7 @@ namespace Company.G03.PL.Controllers
             }
         }
 
-        public IActionResult Details(int? Id)
+        public IActionResult Details(int? Id , string viewName = "Details")
         {
             if (Id is null) return BadRequest();
 
@@ -51,53 +51,37 @@ namespace Company.G03.PL.Controllers
 
             if (Department is null) return NotFound();
 
-            return View(Department);
+            return View(viewName,Department);
         }
 
 
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            if (id is null) return BadRequest();
-
-            var department = _unitOfWork.DepartmentRepository.Get(id.Value);
+ 
 
             if (department == null)
             {
                 return NotFound();
             }
 
-            return View(department);
+            return Details(Id , "Edit");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int? Id, Department model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (Id != model.Id) return BadRequest();
-
-                if (ModelState.IsValid)
-                {
-                    _unitOfWork.DepartmentRepository.Update(model);
-                    var Count = _unitOfWork.Complete();
-                    if (Count > 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
-            }
-            catch (Exception Ex)
-            {
-                ModelState.AddModelError(string.Empty, Ex.Message);
+ 
             }
 
             return View(model);
         }
 
 
-        [HttpGet]
-        public IActionResult Delete(int? Id)
+        
+        public IActionResult Delete(int Id)
         {
             if (Id is null) return BadRequest();
             var department = _unitOfWork.DepartmentRepository.Get(Id.Value);  

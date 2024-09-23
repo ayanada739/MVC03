@@ -17,9 +17,9 @@ namespace Company.G03.PL.Controllers
             //_departmentRepository = departmentRepository;
              _unitOfWork = unitOfWork;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
+            var departments =await _unitOfWork.DepartmentRepository.GetAllAsync();
             return View(departments);
         }
 
@@ -29,10 +29,10 @@ namespace Company.G03.PL.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Department model)
+        public async Task<IActionResult> Create(Department model)
         {
-             _unitOfWork.DepartmentRepository.Add(model);
-            var Count = _unitOfWork.Complete();
+              await _unitOfWork.DepartmentRepository.AddAsync(model);
+            var Count =await _unitOfWork.CompleteAsync();
             if (Count > 0)
             {
                 return RedirectToAction(nameof(Index));
@@ -43,11 +43,11 @@ namespace Company.G03.PL.Controllers
             }
         }
 
-        public IActionResult Details(int? Id , string viewName = "Details")
+        public async Task<IActionResult> Details(int? Id , string viewName = "Details")
         {
             if (Id is null) return BadRequest();
 
-            var Department = _unitOfWork.DepartmentRepository.Get(Id.Value);
+            var Department =await _unitOfWork.DepartmentRepository.GetAsync(Id.Value);
 
             if (Department is null) return NotFound();
 
@@ -55,14 +55,14 @@ namespace Company.G03.PL.Controllers
         }
 
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return BadRequest();
             }
 
-            var department = _unitOfWork.DepartmentRepository.Get(id.Value);
+            var department =await _unitOfWork.DepartmentRepository.GetAsync(id.Value);
 
             if (department == null)
             {
@@ -94,10 +94,10 @@ namespace Company.G03.PL.Controllers
         }
 
 
-        public IActionResult Delete(int? Id)
+        public async Task<IActionResult> Delete(int? Id)
         {
             if (Id == null) return BadRequest();
-            var department = _unitOfWork.DepartmentRepository.Get(Id.Value);  
+            var department =await _unitOfWork.DepartmentRepository.GetAsync(Id.Value);  
 
             if (department == null)
             {
@@ -122,7 +122,7 @@ namespace Company.G03.PL.Controllers
         //}
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromRoute] int? Id, Department model)
+        public async Task<IActionResult> Delete([FromRoute] int? Id, Department model)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace Company.G03.PL.Controllers
                 if (ModelState.IsValid)
                 {
                     _unitOfWork.DepartmentRepository.Delete(model);
-                    var Count = _unitOfWork.Complete();
+                    var Count =await _unitOfWork.CompleteAsync();
                     if (Count>0)
                     {
                         return RedirectToAction(nameof(Index));

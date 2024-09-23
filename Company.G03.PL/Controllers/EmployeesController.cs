@@ -213,7 +213,16 @@ namespace Company.G03.PL.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    if (model.ImageName is not null)
+                    {
+                        DocumentSetting.Delete(model.ImageName, folderName: "images");
 
+                    }
+                    if(model.Image is not null)
+                    {
+                       model.ImageName = DocumentSetting.Upload(model.Image, folderName: "images");
+
+                    }
                     //Employee employee = new Employee()
                     //{
                     //    Id = model.Id,
@@ -235,7 +244,7 @@ namespace Company.G03.PL.Controllers
                     if (Count > 0)
                     {
                         return RedirectToAction(nameof(Index));
-                    }
+                    } 
                 }
             }
             catch (Exception Ex)
@@ -301,6 +310,9 @@ namespace Company.G03.PL.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    
+
+
                     //Employee employee = new Employee()
                     //{
                     //    Id = model.Id,
@@ -321,6 +333,10 @@ namespace Company.G03.PL.Controllers
                     var Count = _unitOfWork.Complete();
                     if (Count > 0)
                     {
+                        if (model.ImageName is not null)
+                        {
+                            DocumentSetting.Delete(model.ImageName, folderName: "images");
+                        }
                         return RedirectToAction(nameof(Index));
                     }
                 }

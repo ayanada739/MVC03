@@ -3,11 +3,13 @@ using Company.G03.BLL.Interfaces;
 using Company.G03.DAL.Models;
 using Company.G03.PL.Helper;
 using Company.G03.PL.ViewModels.Employees;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata;
 
 namespace Company.G03.PL.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
 
@@ -31,7 +33,7 @@ namespace Company.G03.PL.Controllers
             _mapper = mapper;
         }
 
-
+        [Authorize]
         public async Task<IActionResult> Index(string InputSearch)
         {
             var employees = Enumerable.Empty<Employee>();

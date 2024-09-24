@@ -3,9 +3,11 @@ using Company.G03.PL.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Company.G03.PL.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -6,14 +6,20 @@ using System.CodeDom;
 
 namespace Company.G03.PL.Controllers
 {
+
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager )
+        public AccountController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager
+            )
 
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         #region SignUp
@@ -80,7 +86,7 @@ namespace Company.G03.PL.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost] // /Account/SignIn
 
         public async Task<IActionResult> SignIn(SignInViewModel model)
         {
@@ -96,7 +102,12 @@ namespace Company.G03.PL.Controllers
                         if (Flag)
                         {
                             //SignIn
-                            RedirectToAction("Index", "Home");
+
+                           var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe,lockoutOnFailure: false );
+                            if (result.Succeeded)
+                            {
+                                RedirectToAction(actionName: "Index", controllerName: "Home");
+                            }
                         }
                     }
                     ModelState.AddModelError(string.Empty, "Invalid Login !!");

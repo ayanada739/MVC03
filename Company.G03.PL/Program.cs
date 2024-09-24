@@ -34,8 +34,7 @@ namespace Company.G03.PL
 
             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<AppDbContext>();
+            
             //Life Time
             //builder.Services.AddScoped();//Per Request, UnReachable Obj
             //builder.Services.AddSingleton();//Per App 
@@ -47,7 +46,14 @@ namespace Company.G03.PL
             builder.Services.AddTransient<ITransientService, TransientService>();
             builder.Services.AddSingleton<ISingletoneService, SingletoneService>();
 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                            .AddEntityFrameworkStores<AppDbContext>();
 
+
+            builder.Services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = "/Account/SignIn";
+            });
 
             //builder.Services.AddScoped<DepartmentRepository>(); //Allow DI For DepartmentRepository
 
@@ -67,6 +73,9 @@ namespace Company.G03.PL
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseAuthorization();
 

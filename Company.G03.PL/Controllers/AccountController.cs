@@ -15,7 +15,8 @@ namespace Company.G03.PL.Controllers
         {
             _userManager = userManager;
         }
-        //SignUp
+
+        #region SignUp
         [HttpGet] // /Acount/SignUp
         public IActionResult SignUp()
         {
@@ -24,7 +25,7 @@ namespace Company.G03.PL.Controllers
         [HttpPost] // /Acount/SignUp
         public async Task<IActionResult> SignUpAsync(SignUpViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //SignUp
                 try
@@ -57,17 +58,64 @@ namespace Company.G03.PL.Controllers
 
                         }
                         ModelState.AddModelError(string.Empty, "Email is Already Exists !!");
-                        return View(model); 
+                        return View(model);
                     }
                     ModelState.AddModelError(string.Empty, "UserName is Already Exists !!");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError(string.Empty,ex.Message );
+                    ModelState.AddModelError(string.Empty, ex.Message);
 
                 }
             }
             return View(model);
         }
+        #endregion
+
+        #region SignIn
+
+        [HttpGet]
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> SignIn(SignInViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user is not null)
+                    {
+                        //Check Password
+                        var Flag = await _userManager.CheckPasswordAsync(user, model.Password);
+                        if (Flag)
+                        {
+                            //SignIn
+                            RedirectToAction("Index", "Home");
+                        }
+                    }
+                    ModelState.AddModelError(string.Empty, "Invalid Login !!");
+
+                }
+                catch (Exception ex)
+                    {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+
+                }
+           
+            }
+            return View(model);
+        }
+
+        #endregion
+
+
+
+
     }
 }

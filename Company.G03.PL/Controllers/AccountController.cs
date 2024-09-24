@@ -2,6 +2,8 @@
 using Company.G03.PL.ViewModels.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
+using NuGet.Configuration;
 using System.CodeDom;
 
 namespace Company.G03.PL.Controllers
@@ -124,6 +126,14 @@ namespace Company.G03.PL.Controllers
         }
 
         #endregion
+
+        [HttpGet]
+        public new async Task<IActionResult> SignOut()
+        {
+             await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(SignIn));
+
+        }
 
 
 

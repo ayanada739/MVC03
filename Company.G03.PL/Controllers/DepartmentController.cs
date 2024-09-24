@@ -59,6 +59,7 @@ namespace Company.G03.PL.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+
             if (id == null)
             {
                 return BadRequest();
@@ -78,8 +79,11 @@ namespace Company.G03.PL.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int? id, Department model)
         {
+            if (ModelState.IsValid)
             if (id == null)
             {
+ 
+            }
                 return BadRequest();
             }
 

@@ -23,6 +23,8 @@
   <ItemGroup>
     <Folder Include="Mapping\Departments\" />
     <Folder Include="ViewModels\Departments\" />
+    <Folder Include="wwwroot\Files\Images\" />
+    <Folder Include="wwwroot\Files\Videos\" />
   </ItemGroup>
 
 </Project>

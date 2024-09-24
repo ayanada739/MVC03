@@ -31,5 +31,7 @@ namespace Company.G03.PL.ViewModels.Employees
          public DateTime HiringDate { get; set; }
          public int? WorkForId { get; set; } //FK
         public Department? WorkFor { get; set; }//Navigational Property-Optional
+        public IFormFile? Image { get; set; }
+        public string? ImageName { get; set; }
     }
 }

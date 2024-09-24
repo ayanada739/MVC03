@@ -1,4 +1,5 @@
 ﻿using Company.G03.DAL.Models;
+using Company.G03.PL.Helper;
 using Company.G03.PL.ViewModels.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -169,7 +170,9 @@ namespace Company.G03.PL.Controllers
                     };
                     // Send Email
 
+                    EmailSettings.SendEmail(email);
 
+                    return RedirectToAction(nameof(CheckYourInbox));
                 }
                 ModelState.AddModelError(string.Empty, "Invalid Operation, Please Try again !!");
 
@@ -180,8 +183,11 @@ namespace Company.G03.PL.Controllers
 
         }
 
-
-
+        [HttpGet]
+        public IActionResult CheckYourInbox()
+        {
+            return View();
+        }
 
 
 

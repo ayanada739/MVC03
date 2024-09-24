@@ -47,7 +47,8 @@ namespace Company.G03.PL
             builder.Services.AddSingleton<ISingletoneService, SingletoneService>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                            .AddEntityFrameworkStores<AppDbContext>();
+                            .AddEntityFrameworkStores<AppDbContext>()
+                            .AddDefaultTokenProviders();
 
 
             builder.Services.ConfigureApplicationCookie(config =>

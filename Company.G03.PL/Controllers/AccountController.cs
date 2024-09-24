@@ -127,13 +127,60 @@ namespace Company.G03.PL.Controllers
 
         #endregion
 
+        #region SignOut
         [HttpGet]
         public new async Task<IActionResult> SignOut()
         {
-             await _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(SignIn));
 
         }
+        #endregion
+
+        [HttpGet]
+        public IActionResult ForgetPassword()
+        {
+            return View(); 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SendResetPasswordUrl(ForgetPasswordViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+               var user =await _userManager.FindByEmailAsync(model.Email);
+
+                if(user is not null)
+                {
+                    //Create Token
+                    var token =await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                    //Create Reser Password URL
+                    var url = Url.Action(action: "ResetPassword", controller: "Account", new { email= model.Email, token = token}, Request.Scheme );
+
+                    // https://localhost:44363/Account/ResetPassword?email=aya@gmail.com&token
+
+                    // Create Email
+                    var email = new Email()
+                    {
+                        To = model.Email,
+                        Subject = "Reset Password",
+                        Body = url
+                    };
+                    // Send Email
+
+
+                }
+                ModelState.AddModelError(string.Empty, "Invalid Operation, Please Try again !!");
+
+
+            }
+            return View(model);
+
+
+        }
+
+
 
 
 

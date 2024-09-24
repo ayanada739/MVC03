@@ -58,7 +58,7 @@ namespace Company.G03.PL.Controllers
 
 
         public async Task<IActionResult> Edit(int? id)
-        {
+        { 
 
             if (id == null)
             {
@@ -66,6 +66,7 @@ namespace Company.G03.PL.Controllers
             }
 
             var department =await _unitOfWork.DepartmentRepository.GetAsync(id.Value);
+
 
             if (department == null)
             {

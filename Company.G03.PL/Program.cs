@@ -2,8 +2,10 @@ using Company.G03.BLL;
 using Company.G03.BLL.Interfaces;
 using Company.G03.BLL.Repositories;
 using Company.G03.DAL.Data.Contexts;
+using Company.G03.DAL.Models;
 using Company.G03.PL.Mapping.Employees;
 using Company.G03.PL.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -32,12 +34,14 @@ namespace Company.G03.PL
 
             builder.Services.AddAutoMapper(typeof(EmployeeProfile));
 
-
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                            .AddEntityFrameworkStores<AppDbContext>();
             //Life Time
             //builder.Services.AddScoped();//Per Request, UnReachable Obj
             //builder.Services.AddSingleton();//Per App 
             //builder.Services.AddTransient();//Per Operations
 
+            //builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
             builder.Services.AddScoped<IScopedService, ScopedService>();
             builder.Services.AddTransient<ITransientService, TransientService>();

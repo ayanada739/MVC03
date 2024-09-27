@@ -138,26 +138,27 @@ namespace Company.G03.PL.Controllers
         }
         #endregion
 
+        #region Forget Password
         [HttpGet]
         public IActionResult ForgetPassword()
         {
-            return View(); 
+            return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> SendResetPasswordUrl(ForgetPasswordViewModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-               var user =await _userManager.FindByEmailAsync(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email);
 
-                if(user is not null)
+                if (user is not null)
                 {
                     //Create Token
-                    var token =await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
                     //Create Reser Password URL
-                    var url = Url.Action(action: "ResetPassword", controller: "Account", new { email= model.Email, token = token}, Request.Scheme );
+                    var url = Url.Action(action: "ResetPassword", controller: "Account", new { email = model.Email, token = token }, Request.Scheme);
 
                     // https://localhost:44363/Account/ResetPassword?email=aya@gmail.com&token
 
@@ -188,7 +189,9 @@ namespace Company.G03.PL.Controllers
         {
             return View();
         }
+        #endregion
 
+        #region Reset Password
         [HttpGet]
         public IActionResult ResetPassword(string email, string token)
         {
@@ -206,15 +209,15 @@ namespace Company.G03.PL.Controllers
                 var token = TempData["token"] as string;
 
                 var user = await _userManager.FindByEmailAsync(email);
-                if(user is not null)
+                if (user is not null)
                 {
-                   var result =  await _userManager.ResetPasswordAsync(user,token, model.Password);
-                   if (result.Succeeded)
+                    var result = await _userManager.ResetPasswordAsync(user, token, model.Password);
+                    if (result.Succeeded)
                     {
                         return RedirectToAction(nameof(SignIn));
                     }
                 }
-                
+
 
             }
             ModelState.AddModelError(string.Empty, "Invalid Operation, Please Try again !!");
@@ -222,6 +225,11 @@ namespace Company.G03.PL.Controllers
 
             return View(model);
         }
+        #endregion
+
+
+
+
 
 
 

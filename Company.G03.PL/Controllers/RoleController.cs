@@ -3,6 +3,7 @@ using Company.G03.PL.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace Company.G03.PL.Controllers
@@ -10,13 +11,15 @@ namespace Company.G03.PL.Controllers
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         // Get, GetAll, Add, Update, Delete
         // Index,Create, Details, Edit, Delete
 
-        public RoleController(RoleManager<IdentityRole> roleManager)
+        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         [Authorize]
@@ -76,7 +79,6 @@ namespace Company.G03.PL.Controllers
 
 
         [HttpGet]
-
         public async Task<IActionResult> Details(string? Id, string ViewName = "Details")
         {
             if (Id is null) return BadRequest();
@@ -169,5 +171,37 @@ namespace Company.G03.PL.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AddOrRemoveUsers(string roleId)
+        {
+            var role =  await _roleManager.FindByIdAsync(roleId);
+            if (role is null)
+                return NotFound();
+            var usersInRole = new List<UsersInRoleViewModel>();
+            var users = await _userManager.Users.ToListAsync();
+
+            foreach(var user in users)
+            {
+                var userInRole = new UsersInRoleViewModel()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName
+                };
+                if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    userInRole.IsSelected = true;
+                }
+                else
+                {
+                    userInRole.IsSelected = false;
+                }
+
+                usersInRole.Add(userInRole);
+
+            }
+
+            return View(usersInRole);
+
+        }  
     }
 }

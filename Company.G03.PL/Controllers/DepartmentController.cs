@@ -58,10 +58,22 @@ namespace Company.G03.PL.Controllers
 
 
         public async Task<IActionResult> Edit(int? id)
+
         {
             var department = _unitOfWork.DepartmentRepository.GetAsync(id);
 
  
+
+        { 
+
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var department =await _unitOfWork.DepartmentRepository.GetAsync(id.Value);
+
+
             if (department == null)
             {
                 return NotFound();
@@ -74,8 +86,11 @@ namespace Company.G03.PL.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int? id, Department model)
         {
+            if (ModelState.IsValid)
             if (id == null)
             {
+ 
+            }
                 return BadRequest();
             }
 

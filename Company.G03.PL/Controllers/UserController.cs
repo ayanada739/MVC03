@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Company.G03.PL.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

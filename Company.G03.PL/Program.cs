@@ -54,7 +54,7 @@ namespace Company.G03.PL
             builder.Services.ConfigureApplicationCookie(config =>
             {
                 config.LoginPath = "/Account/SignIn";
-            });
+             });
 
             //builder.Services.AddScoped<DepartmentRepository>(); //Allow DI For DepartmentRepository
 

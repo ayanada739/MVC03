@@ -58,6 +58,12 @@ namespace Company.G03.PL.Controllers
 
 
         public async Task<IActionResult> Edit(int? id)
+
+        {
+            var department = _unitOfWork.DepartmentRepository.GetAsync(id);
+
+ 
+
         { 
 
             if (id == null)
